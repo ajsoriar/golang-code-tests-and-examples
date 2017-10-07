@@ -1,0 +1,78 @@
+Problems here:
+
+(1) We need to install 
+
+	$ go get github.com/go-sql-driver/mysql
+
+	... an error arises.
+
+	because $GOPATH is not defined.
+
+(2) Check enviroment variables:
+
+	$ go env
+
+	`
+	mini:golang-dummie-server-code asr$ go env
+	GOARCH="amd64"
+	GOBIN=""
+	GOEXE=""
+	GOHOSTARCH="amd64"
+	GOHOSTOS="darwin"
+	GOOS="darwin"
+	GOPATH=""
+	GORACE=""
+	GOROOT="/usr/local/go"
+	GOTOOLDIR="/usr/local/go/pkg/tool/darwin_amd64"
+	CC="clang"
+	GOGCCFLAGS="-fPIC -m64 -pthread -fno-caret-diagnostics -Qunused-arguments -fmessage-length=0 -fdebug-prefix-map=/var/folders/jb/qt6fbbyn7td4wg3dmw_ls6300000gn/T/go-build307739316=/tmp/go-build -gno-record-gcc-switches -fno-common"
+	CXX="clang++"
+	CGO_ENABLED="1"
+	`
+
+	As you can see actualy $GOPATH is not defined.
+
+(3) Read this about GOPATH
+
+	- Interesting oficial stuff: https://github.com/golang/go/wiki/GOPATH
+
+	- Interestin solution in stackoverflow: https://stackoverflow.com/questions/24306183/can-someone-explain-why-gopath-is-convenient-and-how-it-should-be-used-in-genera/24306485#24306485
+
+(4) Details about the interesting solution in stackoverflow:
+
+
+	GOPATH allows you to collect dependency source code and the resulting compiled binaries in one place. This seems like a really attractive idea. However, I found myself working on several totally unrelated Go projects and an alternative approach suited me better.
+
+	This is a similar but different strategy to Elwinar's symlnks. I start a new project in an empty folder and create src. And I drop into the folder this shell script called env.sh:
+
+	`
+	if [ `type -p go` = "" ]; then
+	    export PATH=$PATH:/usr/local/go/bin
+	fi
+	export GOPATH=$PWD
+	export PATH=$PATH:$PWD/bin
+	`
+
+	Each time I start work, I use
+
+	`
+	. env.sh
+	`
+
+	Note the dot and space - they matter.
+
+	Now, everything I do on this project is localised within this folder. It's possibly not the most widely-used strategy, but it works well for me.
+
+	And another thing: if your dependencies make use of environment variables for testing etc, you can put them in env.sh too. For example, Gorp has
+
+	`
+	export GORP_TEST_DSN=test/testuser/TestPasswd9
+	export GO_TEST_DSN=testuser:TestPasswd9@/test
+	`
+
+(5) After executing the script try $ go get github.com/go-sql-driver/mysql again...
+
+	And go-sql-driver was instaled inside 'src' in the folder of the project
+
+(6) All is fine now so run the examples.	
+ 

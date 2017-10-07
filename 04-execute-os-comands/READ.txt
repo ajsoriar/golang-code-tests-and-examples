@@ -1,0 +1,10 @@
+
+- Run the example this way:
+
+	go run andres-cmd.go
+
+- Explanation:
+
+	This example will execute an unix command in the server
+
+	Most of the code copied from: http://www.darrencoxall.com/golang/executing-commands-in-go/

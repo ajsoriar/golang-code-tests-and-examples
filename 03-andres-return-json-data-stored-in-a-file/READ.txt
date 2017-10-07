@@ -1,0 +1,10 @@
+
+- Run examples this way:
+
+	go run andres-2.go
+
+- Explanation:
+
+	We return a json in an http response
+
+	This is a mixture of examples '01' an '02'
