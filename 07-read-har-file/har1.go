@@ -43,6 +43,8 @@ import (
     "io/ioutil"
 )
 
+/*
+
 type jsonobject struct {
     Object ObjectType
 }
@@ -73,11 +75,67 @@ type TypesType struct {
     Value string
 }
 
-// Main function
-// I realize this function is much too simple I am simply at a loss to
+*/
+
+
+// --------------------
+
+/*
+{
+    "log": {
+      "version": "1.2",
+      "creator": {
+        "name": "WebInspector",
+        "version": "537.36"
+      },
+      "pages": [
+        {
+          "startedDateTime": "2017-12-08T10:30:51.319Z",
+          "id": "page_1",
+          "title": "https://codereview.stackexchange.com/questions/182306/javascript-improve-a-sequence-of-if-conditions",
+          "pageTimings": {
+            "onContentLoad": 13706.380000003264,
+            "onLoad": 27442.97999999253
+          }
+        }
+      ],
+      "entries": [
+*/
+
+type jsonobject struct {
+    ObjectAndresLog LogType
+}
+
+type LogType struct {
+    //Buffer_size int
+    //Databases   []DatabasesType
+    version int
+    creator CreatorType
+    pages PagesType
+    entries EntriesType
+}
+
+type CreatorType struct {
+    name string
+    version string
+}
+
+type PagesType structs {
+    startedDateTime string //": "2017-12-08T10:30:51.319Z",
+    id string // "page_1",
+    title string //https://codereview.stackexchange.com/questions/182306/javascript-improve-a-sequence-of-if-conditions",
+    //pageTimings": {
+}
+
+type EntriesType struct {
+    //name string
+    //version string
+}
 
 func main() {
-    file, e := ioutil.ReadFile("./config.json")
+    //file, e := ioutil.ReadFile("./config.json")
+    file, e := ioutil.ReadFile("./demo.har")
+
     if e != nil {
         fmt.Printf("File error: %v\n", e)
         os.Exit(1)
