@@ -1,0 +1,58 @@
+/*
+
+type jsonobject struct {
+    Object ObjectType
+}
+
+type ObjectType struct {
+    Buffer_size int
+    Databases   []DatabasesType
+}
+
+type DatabasesType struct {
+    Host   string
+    User   string
+    Pass   string
+    Type   string
+    Name   string
+    Tables []TablesType
+}
+
+type TablesType struct {
+    Name     string
+    Statment string
+    Regex    string
+    Types    []TypesType
+}
+
+type TypesType struct {
+    Id    string
+    Value string
+}
+
+*/
+
+
+// --------------------
+
+/*
+{
+    "log": {
+      "version": "1.2",
+      "creator": {
+        "name": "WebInspector",
+        "version": "537.36"
+      },
+      "pages": [
+        {
+          "startedDateTime": "2017-12-08T10:30:51.319Z",
+          "id": "page_1",
+          "title": "https://codereview.stackexchange.com/questions/182306/javascript-improve-a-sequence-of-if-conditions",
+          "pageTimings": {
+            "onContentLoad": 13706.380000003264,
+            "onLoad": 27442.97999999253
+          }
+        }
+      ],
+      "entries": [
+*/
