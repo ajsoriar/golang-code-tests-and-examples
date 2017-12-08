@@ -1,40 +1,5 @@
 package main
 
-/*
-cat config.json
-{"object": 
-    {
-       "buffer_size": 10,
-       "Databases":
-       [
-               {
-                       "host": "localhost",
-                       "user": "root",
-                       "pass": "",
-                       "type": "mysql",
-                       "name": "go",
-                       "Tables":
-                       [
-                               {
-                                       "name": "testing",
-                                       "statment": "teststring",
-                                       "regex": "teststring ([0-9]+) ([A-z]+)",
-                                       "Types": 
-                                        [
-                                           {
-                                               "id": "int",
-                                               "value": "string"
-                                           }
-                                        ]
-                               }
-                       ]
-               }
-       ]
-    }
-}
-
-*/
-
 import (
     "fmt"
     "os"
@@ -48,8 +13,6 @@ type jsonobject struct {
 }
 
 type LogType struct {
-    //Buffer_size int
-    //Databases   []DatabasesType
     version int
     creator CreatorType
     pages PagesType
@@ -74,7 +37,6 @@ type EntriesType struct {
 }
 
 func main() {
-    //file, e := ioutil.ReadFile("./config.json")
     file, e := ioutil.ReadFile("./demo.har")
 
     if e != nil {
