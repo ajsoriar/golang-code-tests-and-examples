@@ -1,8 +1,4 @@
 
 - Run examples this way:
 
-	go run gistfile2.go
-
-- Almost all code and comments/explanations were copied from:
-
-	https://gist.github.com/border/775526
+	> go run har1.go // This will print in the console the file
