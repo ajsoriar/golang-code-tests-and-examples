@@ -1,40 +1,5 @@
 package main
 
-/*
-cat config.json
-{"object": 
-    {
-       "buffer_size": 10,
-       "Databases":
-       [
-               {
-                       "host": "localhost",
-                       "user": "root",
-                       "pass": "",
-                       "type": "mysql",
-                       "name": "go",
-                       "Tables":
-                       [
-                               {
-                                       "name": "testing",
-                                       "statment": "teststring",
-                                       "regex": "teststring ([0-9]+) ([A-z]+)",
-                                       "Types": 
-                                        [
-                                           {
-                                               "id": "int",
-                                               "value": "string"
-                                           }
-                                        ]
-                               }
-                       ]
-               }
-       ]
-    }
-}
-
-*/
-
 import (
     "fmt"
     "os"
@@ -85,7 +50,32 @@ func main() {
 
     //m := new(Dispatch)
     //var m interface{}
+
+    /*
     var jsontype jsonobject
     json.Unmarshal(file, &jsontype)
     fmt.Printf("Results: %v\n", jsontype)
+    */
+
+    var arrOfData EntriesType
+    json.Unmarshal(file, &arrOfData)
+    fmt.Printf("Results: %v\n", arrOfData )
 }
+
+/*
+func parseArray(anArray []interface{}) {
+	for i, val := range anArray {
+		switch concreteVal := val.(type) {
+		case map[string]interface{}:
+			fmt.Println("Index:", i)
+			parseMap(val.(map[string]interface{}))
+		case []interface{}:
+			fmt.Println("Index:", i)
+			parseArray(val.([]interface{}))
+		default:
+			fmt.Println("Index", i, ":", concreteVal)
+
+		}
+	}
+}
+*/
