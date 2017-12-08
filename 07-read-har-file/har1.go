@@ -120,7 +120,7 @@ type CreatorType struct {
     version string
 }
 
-type PagesType structs {
+type PagesType struct {
     startedDateTime string //": "2017-12-08T10:30:51.319Z",
     id string // "page_1",
     title string //https://codereview.stackexchange.com/questions/182306/javascript-improve-a-sequence-of-if-conditions",
