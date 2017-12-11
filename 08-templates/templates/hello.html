@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{{ template "templates/header.html" . }}
 
-</body>
-</html>
+Hello world! My name is {{ .Name | Upper }}
+
+{{ template "templates/footer.html" . }}
