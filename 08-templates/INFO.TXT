@@ -1,0 +1,59 @@
+Stuff used
+==========
+
+Golang 1.5	Compiler
+go generate	Precompiler
+github.com/jteeuwen/go-bindata	Code generation
+github.com/elazarl/go-bindata-assetfs	http.Dir for use with http.FileServer
+github.com/julienschmidt/httprouter	Mux Handler
+
+
+Installation
+============
+go get github.com/jteeuwen/go-bindata/...
+go get github.com/elazarl/go-bindata-assetfs/...
+go get github.com/julienschmidt/httprouter
+
+
+Directory structure
+===================
+.
+├── functions.go
+├── main.go
+├── templates
+│   ├── footer.html
+│   ├── header.html
+│   └── hello.html
+└── static
+    └── golang.png
+
+
+DETAILED INSTRUCTIONS
+=====================
+
+1) Set go path as GOPATH=".../golang/golang-code-tests-and-examples/08-templates/pkg"
+
+	> pwd
+    ...golang-code-tests-and-examples/08-templates/pkg
+    > . env.sh
+    GOPATH="/Users/asr/Documents/golang/golang-code-tests-and-examples/08-templates/pkg"
+
+
+2) Install stuff:
+
+    go get -u github.com/jteeuwen/go-bindata/...
+    go get github.com/elazarl/go-bindata-assetfs/...
+    go get github.com/julienschmidt/httprouter
+
+
+3) Build the application:
+
+    > pwd
+    .../golang-code-tests-and-examples/08-templates/pkg
+    > go generate
+    > go build && ./08-templates 
+
+
+4) in web browser:
+
+    http://localhost:8080/hello/andrew
