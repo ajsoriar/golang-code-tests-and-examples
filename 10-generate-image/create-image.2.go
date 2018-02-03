@@ -3,14 +3,8 @@ package main
 import (
     "image"
     "image/png"
-    
-
-
     "image/color"
-
     //"math"
-
-    
     "os"
 )
 
