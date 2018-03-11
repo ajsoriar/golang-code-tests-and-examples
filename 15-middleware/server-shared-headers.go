@@ -14,13 +14,14 @@ import (
 
 func main() {
 
-	lt1 := chainMiddleware(withLogging, withTracing)
-	lt2 := chainMiddleware(andres)
+	//lt1 := chainMiddleware(withLogging, withTracing)
+	//lt2 := chainMiddleware(andres)
+	lt3 := chainMiddleware(setAndresHeaders, withLogging, withTracing)
 
-	http.HandleFunc("/login", _response_login)
-	http.HandleFunc("/user", lt1(_response_user))
+	http.HandleFunc("/login", lt3(_response_login))
+	http.HandleFunc("/user", lt3(_response_user))
 	http.HandleFunc("/shutdown", _shutdown)
-	http.HandleFunc("/", lt2(welcome))
+	//http.HandleFunc("/", lt2(welcome))
 	http.ListenAndServe(":7009", nil)
 }
 
@@ -63,6 +64,19 @@ func chainMiddleware(mw ...middleware) middleware {
 	}
 }
 
+// ----- COMMON HEADERS -------
+
+func setAndresHeaders(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("Andrés!!! setAndresHeaders()")
+
+		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("Server", "A Go Web Server")
+		w.Header().Set("Andres-Header", "Hello!!!")
+		next.ServeHTTP(w, r)
+	}
+}
+
 // -----------------------------------------------
 // - WELCOME
 // -----------------------------------------------
@@ -91,17 +105,22 @@ func _shutdown(w http.ResponseWriter, r *http.Request) {
 // -----------------------------------------------
 
 func _response_login(w http.ResponseWriter, r *http.Request) {
-	fp := path.Join("data/", "response.json")
-	w.Header().Set("Content-Type", "application/json")
-	w.Header().Set("Server", "A Go Web Server")
-	//w.Header().Set("Access-Control-Allow-Origin", AccessControlAllowOrigin)
+	fp := path.Join("data", "response.json")
+	/*
+		w.Header().Set("Content-Type", "application/json")
+		w.Header().Set("Server", "A Go Web Server")
+		//w.Header().Set("Access-Control-Allow-Origin", AccessControlAllowOrigin)
+	*/
 	http.ServeFile(w, r, fp)
 }
 
 func _response_user(w http.ResponseWriter, r *http.Request) {
-	fp := path.Join("data/", "response.json")
+	fp := path.Join("data", "response.json")
+	/*)
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Server", "A Go Web Server")
 	//w.Header().Set("Access-Control-Allow-Origin", AccessControlAllowOrigin)
+	*/
+
 	http.ServeFile(w, r, fp)
 }
