@@ -4,6 +4,7 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"path"
 )
@@ -12,18 +13,61 @@ import (
 //var AccessControlAllowOrigin = "http://localhost:8080"
 
 func main() {
+
+	lt1 := chainMiddleware(withLogging, withTracing)
+	lt2 := chainMiddleware(andres)
+
 	http.HandleFunc("/login", _response_login)
-	http.HandleFunc("/user", _response_user)
-	http.HandleFunc("/", _welcome)
+	http.HandleFunc("/user", lt1(_response_user))
 	http.HandleFunc("/shutdown", _shutdown)
+	http.HandleFunc("/", lt2(welcome))
 	http.ListenAndServe(":7009", nil)
+}
+
+// Source here: https://hackernoon.com/simple-http-middleware-with-go-79a4ad62889b
+// middleware provides a convenient mechanism for filtering HTTP requests
+// entering the application. It returns a new handler which may perform various
+// operations and should finish by calling the next HTTP handler.
+type middleware func(next http.HandlerFunc) http.HandlerFunc
+
+func withLogging(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("Logged connection from %s", r.RemoteAddr)
+		next.ServeHTTP(w, r)
+	}
+}
+
+func withTracing(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("Tracing request for %s", r.RequestURI)
+		next.ServeHTTP(w, r)
+	}
+}
+
+func andres(next http.HandlerFunc) http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		log.Printf("Andrés 1, 2 y 3!")
+		next.ServeHTTP(w, r)
+	}
+}
+
+func chainMiddleware(mw ...middleware) middleware {
+	return func(final http.HandlerFunc) http.HandlerFunc {
+		return func(w http.ResponseWriter, r *http.Request) {
+			last := final
+			for i := len(mw) - 1; i >= 0; i-- {
+				last = mw[i](last)
+			}
+			last(w, r)
+		}
+	}
 }
 
 // -----------------------------------------------
 // - WELCOME
 // -----------------------------------------------
 
-func _welcome(w http.ResponseWriter, r *http.Request) {
+func welcome(w http.ResponseWriter, r *http.Request) {
 	js := "<b>Hello HTML (1)! This is a go server!</b>"
 	w.Header().Set("Content-Type", "application/json")
 	w.Header().Set("Server", "A Go Web Server")
