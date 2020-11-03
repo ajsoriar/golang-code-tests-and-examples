@@ -1,6 +1,6 @@
 # Ggenerating source png images
 
-This program scales images generating a png file.
+This program scales all the images in source folder generating png files in results folder.
 
 ## Download dependencies
 
@@ -8,4 +8,4 @@ This program scales images generating a png file.
 
 ## To run the example without building
 
-> go run .\scale2.go
+> go run .\scaleall.2.go
