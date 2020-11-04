@@ -1,7 +1,3 @@
-// ----------------------------------
-// Scale percentage
-// ----------------------------------
-
 // ------------------------------------------
 // Scale injecting new width as a parameter
 // ------------------------------------------
@@ -9,11 +5,9 @@
 /*
 	EXAMPLE:
 
-	> go run .\scaleall.2.go
+	> go run .\scaleall.3.go 1000
 
-	Will scale all pictures in sources.
-
-	This way: width/4 and height/4
+	Will scale all pictures in sources to width = 1000
 
 */
 
@@ -28,22 +22,38 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"strconv"
 
 	"golang.org/x/image/draw"
 )
 
-var fileRoute = ""
-
 func main() {
 
 	var (
-		rootFolder string
-		files      []string
-		err        error
-		fileName   string
+		rootFolder  string
+		files       []string
+		err         error
+		fileName    string
+		scaledWidth int
 	)
 
-	// 1) Get a list of all images in source folder
+	// 1) Console params
+	arg := os.Args[1]
+	fmt.Println("param: " + arg)
+
+	scaledWidth, err = strconv.Atoi(arg)
+	if err != nil {
+		fmt.Println("Argument is not a number!")
+	}
+
+	if InBetween(scaledWidth, 100, 1000) {
+		fmt.Println("scaled width will be " + strconv.Itoa(scaledWidth))
+	} else {
+		scaledWidth = 100
+		fmt.Println("Out of range! So scaled width will be 100.")
+	}
+
+	// 2) Get a list of all images in source folder
 
 	rootFolder = "sources"
 
@@ -52,25 +62,23 @@ func main() {
 		panic(err)
 	}
 
-	// 2) Does target directory exist?
+	// 3) Does target directory exist?
 	checkTargetDirectory()
 
-	// 3) read the images one by one and scale
+	// 4) read the images one by one and scale
 
 	for _, fileName = range files {
 
 		fmt.Println(fileName)
 
-		fileRoute = rootFolder + "/" + fileName
-
-		// 3.1) Open a new file to store the data of the image
-		fl, err := os.Open(fileRoute)
+		// 4.1) Open a new file to store the data of the image
+		fl, err := os.Open(rootFolder + "/" + fileName)
 		if err != nil {
 			log.Fatal(err)
 		}
 		defer fl.Close()
 
-		// 3.2) Read image data and format
+		// 4.2) Read image data and format
 		sourceImage, imageFormat, err := image.Decode(fl)
 		if err != nil {
 			log.Fatal(err)
@@ -78,30 +86,35 @@ func main() {
 
 		fmt.Println(imageFormat)
 
-		// 3.3) Create new image canvas
-		newImage := image.Rect(0, 0, sourceImage.Bounds().Max.X/4, sourceImage.Bounds().Max.Y/4) // 4
+		// 4.3) calculate new height
+		scaledHeight := sourceImage.Bounds().Max.Y * scaledWidth / sourceImage.Bounds().Max.X
 
-		// 3.4) Scaling the image and fitting it to the new smaller canvas
+		// 4.4) Create new image canvas
+		//newImage := image.Rect(0, 0, sourceImage.Bounds().Max.X/4, sourceImage.Bounds().Max.Y/4) // 4
+		newImage := image.Rect(0, 0, scaledWidth, scaledHeight) // 4
+
+		// 4.5) Scaling the image and fitting it to the new smaller canvas
 		var res image.Image = scaleTo(sourceImage, newImage, draw.BiLinear)
 
-		bounds := sourceImage.Bounds()
-		y := bounds.Max.Y
-		x := bounds.Max.X
-		fmt.Println(x)
-		fmt.Println(y)
+		// bounds := sourceImage.Bounds()
+		// y := bounds.Max.Y
+		// x := bounds.Max.X
+		// fmt.Println(x)
+		// fmt.Println(y)
 
-		// 3.5) Create the picture file
-		file, err := os.Create("results/scaled-" + fileName)
+		// 4.6) Create the picture file
+		file, err := os.Create("results/" + fileName)
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		// 3.6) Encode picture data an store it in the file
+		// 4.6) Encode picture data an store it in the file
 		switch imageFormat {
 		case "jpg":
 		case "jpeg":
 
-			// Specify the quality, between 0-100, higher is better
+			// Specify the quality, between 0-100
+			// Higher is better
 			opt := jpeg.Options{
 				Quality: 100,
 			}
@@ -115,12 +128,11 @@ func main() {
 			break
 
 		case "png":
-
 			err = png.Encode(file, res)
 			break
 		}
 
-		// 3.7) Close the file!
+		// 4.7) Close the file!
 		file.Close()
 		if err != nil {
 			log.Fatal(err)
@@ -156,5 +168,13 @@ func checkTargetDirectory() { // Creates the folder if it doesn´t exist
 		if errDir != nil {
 			log.Fatal(err)
 		}
+	}
+}
+
+func InBetween(i, min, max int) bool {
+	if (i >= min) && (i <= max) {
+		return true
+	} else {
+		return false
 	}
 }

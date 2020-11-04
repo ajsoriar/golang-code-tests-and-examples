@@ -42,7 +42,7 @@ func main() {
 
 		imgFile = rootFolder + fileName
 		src = openImage()
-		newImage := image.Rect(0, 0, src.Bounds().Max.X/4, src.Bounds().Max.Y/4) // 4
+		newImage := image.Rect(0, 0, src.Bounds().Max.X/2, src.Bounds().Max.Y/2) // 4
 
 		var res image.Image = scaleTo(src, newImage, draw.BiLinear)
 
