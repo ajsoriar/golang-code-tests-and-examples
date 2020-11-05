@@ -85,7 +85,7 @@ func main() {
 	// 2) Create new file
 	// ------------------------------------------------------
 
-	newFile, err := os.Create("gallery.json")
+	newFile, err := os.Create("./gallery.json")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -98,8 +98,7 @@ func main() {
 	// 3) Process
 	// ------------------------------------------------------
 
-	jsonData := jsonData_Gallery_A
-	var jsonData2 string = ""
+	var itemsString string = ""
 
 	cont := 0
 
@@ -136,20 +135,19 @@ func main() {
 
 		// 3.4) Concat strings to create a json
 
-		if cont > 0 { jsonData += "," }
-		jsonData2, err = compose_Item("m")
-		jsonData += jsonData2
+		if cont > 0 { itemsString += "," }
+		itemsString += compose_Item(cont, fileName)
 		cont++
 	}
 
-	jsonData = jsonData + jsonData_Gallery_B 
+	jsonData := compose_Gallery (itemsString) 
 
 	// ------------------------------------------------------
 	// 4) Write string in file
 	// ------------------------------------------------------
 
 	fmt.Println(jsonData)
-	newFile, err = os.Create("./data.json")
+	//newFile, err = os.Create("./gallery.json")
 	newFile.Write([]byte (jsonData))
 
 	// ------------------------------------------------------
@@ -185,6 +183,8 @@ func checkTargetDirectory(dirName string) { // Creates the folder if it doesn´t
 	}
 }
 
+/*
+
 var jsonData_Item = string (`
 {
 	"id": 1,
@@ -204,9 +204,33 @@ var jsonData_Item = string (`
 	"hover": null
 }`)
 
-func compose_Item (rootFolder string) (string , error) {
-	return jsonData_Item, nil
+*/
+
+func compose_Item (cont int, fileName string) (string) {
+
+	str := string (`
+		{
+			"id": `+ strconv.Itoa( cont ) +`,
+			"parent": 0,
+			"type": "IMAGE",
+			"description": "Description of the picture `+ fileName +`",
+			"zoom": 1,
+			"name": "`+ fileName +`",
+			"title": "`+ fileName +`",
+			"tags":["ALL"],
+			"thumbnail": null,
+			"target": null,
+			"header": null,
+			"footer": null,
+			"background": null,
+			"frame": null,
+			"hover": null
+		}`)
+
+	return str
 }
+
+/*
 
 var jsonData_Gallery = string (`
 {
@@ -250,6 +274,9 @@ var jsonData_Gallery = string (`
     "items": []
 }`)
 
+*/
+
+/*
 var jsonData_Gallery_A = string (`
 {
     "galleryConfig": {
@@ -294,3 +321,54 @@ var jsonData_Gallery_A = string (`
 
 var jsonData_Gallery_B = string (`]
 }`)
+
+*/
+
+func compose_Gallery (items string) (string) {
+
+str := string (`
+{
+	"galleryConfig": {
+		"id": 202011041604498354406,
+		"type": null,
+		"name": "Name of the gallery",
+		"title": "Title of the gallery",
+		"description": "Description of the gallery",
+		"background": {
+			"color": "red",
+			"video": {
+				"src": null,
+				"size": {
+					"w": 1024,
+					"h": 740
+				}
+			},
+			"placeholder": null
+		},
+		"tags": [{
+				"id": null,
+				"label": "All"
+			},
+			{
+				"id": 2,
+				"label": "Smart TV"
+			},
+			{
+				"id": 3,
+				"label": "WEB"
+			},
+			{
+				"id": 4,
+				"label": "Demo"
+			}
+		],
+		"itemTypes": [],
+		"debug": false
+	},
+	"items": [`+ items +`
+	]
+}`)
+
+	return str
+}
+
