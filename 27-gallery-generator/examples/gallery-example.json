@@ -1,0 +1,40 @@
+{
+    "galleryConfig": {
+        "id": 202011041604498354406,
+        "type": null,
+        "name": "Name of the gallery",
+        "title": "Title of the gallery",
+        "description": "Description of the gallery",
+        "background": {
+            "color": "red",
+            "video": {
+                "src": null,
+                "size": {
+                    "w": 1024,
+                    "h": 740
+                }
+            },
+            "placeholder": null
+        },
+        "tags": [{
+                "id": null,
+                "label": "All"
+            },
+            {
+                "id": 2,
+                "label": "Smart TV"
+            },
+            {
+                "id": 3,
+                "label": "WEB"
+            },
+            {
+                "id": 4,
+                "label": "Demo"
+            }
+        ],
+        "itemTypes": [],
+        "debug": false
+    },
+    "items": []
+}

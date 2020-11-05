@@ -1,0 +1,73 @@
+{
+    "items": [{
+        "id": 1,
+        "parent": 0,
+        "type": "IMAGE",
+        "description": "Picture long description",
+        "zoom": 1,
+        "name": "Picture name",
+        "title": "Picture title",
+        "tags":["A001", "A002", "A003"],
+        "thumbnail": {
+            "align": "center",
+            "size": {
+                "w": 200,
+                "h": 250
+            },
+            "src": "picture-name.thumbnail.gif",
+            "cropStrategy": "FILL-THE-FRAME",
+            "color": "orange"
+        },
+        "target": {
+            "size": {
+                "w": 200,
+                "h": 250
+            },
+            "src": "picture-name.gif"
+        },
+        "header": {
+            "title": "Header title",
+            "date": "04/11/2020"
+        },
+        "footer": {
+            "title": "Footer title",
+            "subtitle": "Footer subtitle",
+            "text": "Footer text",
+            "author": "Author name",
+            "date": "04/11/2020"
+        },
+        "background": {
+            "color": null,
+            "image":{
+                "src": "background-640x480.png",
+                "size":{
+                    "w": 640,
+                    "h": 480
+                }
+            },
+            "video":{
+                "src": "videobg-1280x720.mp4",
+                "size":{
+                    "w": 1024,
+                    "h": 740
+                }
+            },
+            "placeholder": null
+        },
+        "frame": {
+            "size":{
+                "w": 320,
+                "h": 240
+            }
+        },
+        "hover":{
+            "border": false,
+            "zoom": false,
+            "translucent": false,
+            "overlay": true,
+            "banner": false,
+            "shadow": false,
+            "overlayText": true
+        }
+    }]
+}

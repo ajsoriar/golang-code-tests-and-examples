@@ -1,7 +1,7 @@
 package main
 
 /*
-cat config.json
+dog config.json
 {"object": 
     {
        "buffer_size": 10,
@@ -38,7 +38,6 @@ cat config.json
 import (
     "fmt"
     "os"
-    //"json"
     "encoding/json"
     "io/ioutil"
 )

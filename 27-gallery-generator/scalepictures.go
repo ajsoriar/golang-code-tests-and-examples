@@ -39,6 +39,7 @@ func main() {
 
 	// 1) Console params
 	arg := os.Args[1]
+
 	fmt.Println("param: " + arg)
 
 	scaledWidth, err = strconv.Atoi(arg)
@@ -63,15 +64,16 @@ func main() {
 	}
 
 	// 3) Does target directory exist?
+
 	checkTargetDirectory()
 
 	// 4) read the images one by one and scale
-
+	
 	for _, fileName = range files {
 
 		fmt.Println(fileName)
 
-		// 4.1) Open and close the image
+		// 4.1) Open a new file to store the data of the image
 		fl, err := os.Open(rootFolder + "/" + fileName)
 		if err != nil {
 			log.Fatal(err)
@@ -113,8 +115,7 @@ func main() {
 		case "jpg":
 		case "jpeg":
 
-			// Specify the quality, between 0-100
-			// Higher is better
+			// Specify the quality, between 0-100. Higher is better
 			opt := jpeg.Options{
 				Quality: 100,
 			}
