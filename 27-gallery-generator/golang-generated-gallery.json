@@ -1,0 +1,197 @@
+
+{
+	"galleryConfig": {
+		"id": 1604686267781069300,
+		"type": null,
+		"name": "Unnamed Gallery",
+		"title": "Untitled Gallery",
+		"description": "Description of this gallery",
+		"background": {
+			"color": "#ffffff",
+			"gradient": {
+                "color1": "#ffffff",
+                "color2": "#ffffff",
+                "angle": null
+			},
+			"video": null,
+			"placeholder": null
+		},
+		"tags": [{
+				"id": null,
+				"label": "All"
+			}
+		],
+		"itemTypes": [],
+		"debug": false
+	},
+	"items": [
+		{
+			"id": 0,
+			"parent": 0,
+			"type": "IMAGE",
+			"description": "Description of the picture 001.png",
+			"zoom": 1,
+			"name": "001.png",
+			"title": "001.png",
+			"tags":["ALL"],
+			"thumbnail": {
+                "size":{
+                    "w": 240,
+                    "h": 300
+                },
+				"src": "./galleries/golang-generated-gallery/images//001.png",
+				"placeholderColor": "#e8e8e8"
+            },
+			"target": {
+                "size":{
+                    "w": 240,
+                    "h": 300
+                },
+				"src": "./galleries/golang-generated-gallery/images//001.png"
+			},
+			"background": {
+				"color": "#e8e8e8",
+				"image": null,
+				"video": null
+			},
+			"header": null,
+			"footer": null,
+			"frame": null,
+			"hover": {
+				"border": false,
+				"zoom": true,
+				"translucent": false,
+				"overlay": true,
+				"banner": false,
+				"shadow": false,
+				"overlayText": false
+			}
+		},
+		{
+			"id": 1,
+			"parent": 0,
+			"type": "IMAGE",
+			"description": "Description of the picture 002.jpg",
+			"zoom": 1,
+			"name": "002.jpg",
+			"title": "002.jpg",
+			"tags":["ALL"],
+			"thumbnail": {
+                "size":{
+                    "w": 300,
+                    "h": 240
+                },
+				"src": "./galleries/golang-generated-gallery/images//002.jpg",
+				"placeholderColor": "#e8e8e8"
+            },
+			"target": {
+                "size":{
+                    "w": 300,
+                    "h": 240
+                },
+				"src": "./galleries/golang-generated-gallery/images//002.jpg"
+			},
+			"background": {
+				"color": "#e8e8e8",
+				"image": null,
+				"video": null
+			},
+			"header": null,
+			"footer": null,
+			"frame": null,
+			"hover": {
+				"border": false,
+				"zoom": true,
+				"translucent": false,
+				"overlay": true,
+				"banner": false,
+				"shadow": false,
+				"overlayText": false
+			}
+		},
+		{
+			"id": 2,
+			"parent": 0,
+			"type": "IMAGE",
+			"description": "Description of the picture 003.gif",
+			"zoom": 1,
+			"name": "003.gif",
+			"title": "003.gif",
+			"tags":["ALL"],
+			"thumbnail": {
+                "size":{
+                    "w": 840,
+                    "h": 592
+                },
+				"src": "./galleries/golang-generated-gallery/images//003.gif",
+				"placeholderColor": "#e8e8e8"
+            },
+			"target": {
+                "size":{
+                    "w": 840,
+                    "h": 592
+                },
+				"src": "./galleries/golang-generated-gallery/images//003.gif"
+			},
+			"background": {
+				"color": "#e8e8e8",
+				"image": null,
+				"video": null
+			},
+			"header": null,
+			"footer": null,
+			"frame": null,
+			"hover": {
+				"border": false,
+				"zoom": true,
+				"translucent": false,
+				"overlay": true,
+				"banner": false,
+				"shadow": false,
+				"overlayText": false
+			}
+		},
+		{
+			"id": 3,
+			"parent": 0,
+			"type": "IMAGE",
+			"description": "Description of the picture 70.png",
+			"zoom": 1,
+			"name": "70.png",
+			"title": "70.png",
+			"tags":["ALL"],
+			"thumbnail": {
+                "size":{
+                    "w": 1639,
+                    "h": 248
+                },
+				"src": "./galleries/golang-generated-gallery/images//70.png",
+				"placeholderColor": "#e8e8e8"
+            },
+			"target": {
+                "size":{
+                    "w": 1639,
+                    "h": 248
+                },
+				"src": "./galleries/golang-generated-gallery/images//70.png"
+			},
+			"background": {
+				"color": "#e8e8e8",
+				"image": null,
+				"video": null
+			},
+			"header": null,
+			"footer": null,
+			"frame": null,
+			"hover": {
+				"border": false,
+				"zoom": true,
+				"translucent": false,
+				"overlay": true,
+				"banner": false,
+				"shadow": false,
+				"overlayText": false
+			}
+		}
+	]
+}

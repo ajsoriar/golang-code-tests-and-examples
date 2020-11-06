@@ -14,7 +14,11 @@ import (
 	"log"
 	"os"
 	"strconv"
+	"time"
 )
+
+var galleryFolderName = "golang-generated-gallery"
+var sourcesDataPath = "./galleries"
 
 func main() {
 
@@ -71,7 +75,7 @@ func main() {
 	if cont1 != cont2 {
 
 		defer fmt.Println("!") // INTERESTING: defers will not be run when using os.Exit, so this fmt.Println will never be called.
-		fmt.Println("Error: Num of files is diferent!")
+		fmt.Println("Error: Num of files is different!")
 
 		//Exit with status 3.
 		os.Exit(3)
@@ -85,7 +89,7 @@ func main() {
 	// 2) Create new file
 	// ------------------------------------------------------
 
-	newFile, err := os.Create("./gallery.json")
+	newFile, err := os.Create(galleryFolderName +".json")
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -98,7 +102,7 @@ func main() {
 	// 3) Process
 	// ------------------------------------------------------
 
-	var itemsString string = ""
+	var itemsString = ""
 
 	cont := 0
 
@@ -114,7 +118,7 @@ func main() {
 			fmt.Println("Err 1")
 			log.Fatal(err)
 		}
-		defer f1.Close()
+		defer f1.Close() // TODO: Why I just can't remove 'defer'?
 
 		// 3.2) Decode the picture: Read image data and format
 
@@ -136,18 +140,18 @@ func main() {
 		// 3.4) Concat strings to create a json
 
 		if cont > 0 { itemsString += "," }
-		itemsString += compose_Item(cont, fileName)
+
+		itemsString += composeItem(cont, fileName, sourcesDataPath +"/"+ galleryFolderName +"/images/", w, h, "#e8e8e8")
 		cont++
 	}
 
-	jsonData := compose_Gallery (itemsString) 
+	jsonData := composeGallery(itemsString)
 
 	// ------------------------------------------------------
 	// 4) Write string in file
 	// ------------------------------------------------------
 
 	fmt.Println(jsonData)
-	//newFile, err = os.Create("./gallery.json")
 	newFile.Write([]byte (jsonData))
 
 	// ------------------------------------------------------
@@ -155,9 +159,6 @@ func main() {
 	// ------------------------------------------------------
 
 	newFile.Close()
-	if err != nil {
-		log.Fatal(err)
-	}
 
 	// That was all!
 }
@@ -175,7 +176,7 @@ func IOReadDir(rootFolder string) ([]string, error) {
 	return files, nil
 }
 
-func checkTargetDirectory(dirName string) { // Creates the folder if it doesn´t exist
+func checkTargetDirectory(dirName string) {
 	_, err := os.Stat(dirName)
 	if os.IsNotExist(err) {
 		log.Fatal(err)
@@ -183,32 +184,15 @@ func checkTargetDirectory(dirName string) { // Creates the folder if it doesn´t
 	}
 }
 
-/*
+func composeItem(
+	cont int, 
+	fileName string,
+	filePath string,
+	pictureWidth int,
+	pictureHeight int,
+	pictureColor string ) string {
 
-var jsonData_Item = string (`
-{
-	"id": 1,
-	"parent": 0,
-	"type": "IMAGE",
-	"description": "Picture long description",
-	"zoom": 1,
-	"name": "Picture name",
-	"title": "Picture title",
-	"tags":["A001", "A002", "A003"],
-	"thumbnail": null,
-	"target": null,
-	"header": null,
-	"footer": null,
-	"background": null,
-	"frame": null,
-	"hover": null
-}`)
-
-*/
-
-func compose_Item (cont int, fileName string) (string) {
-
-	str := string (`
+	str := `
 		{
 			"id": `+ strconv.Itoa( cont ) +`,
 			"parent": 0,
@@ -218,148 +202,74 @@ func compose_Item (cont int, fileName string) (string) {
 			"name": "`+ fileName +`",
 			"title": "`+ fileName +`",
 			"tags":["ALL"],
-			"thumbnail": null,
-			"target": null,
+			"thumbnail": {
+                "size":{
+                    "w": `+ strconv.Itoa( pictureWidth ) +`,
+                    "h": `+ strconv.Itoa( pictureHeight ) +`
+                },
+				"src": "`+ filePath +`/`+ fileName +`",
+				"placeholderColor": "`+ pictureColor +`"
+            },
+			"target": {
+                "size":{
+                    "w": `+ strconv.Itoa( pictureWidth ) +`,
+                    "h": `+ strconv.Itoa( pictureHeight ) +`
+                },
+				"src": "`+ filePath +`/`+ fileName +`"
+			},
+			"background": {
+				"color": "`+ pictureColor +`",
+				"image": null,
+				"video": null
+			},
 			"header": null,
 			"footer": null,
-			"background": null,
 			"frame": null,
-			"hover": null
-		}`)
+			"hover": {
+				"border": false,
+				"zoom": true,
+				"translucent": false,
+				"overlay": true,
+				"banner": false,
+				"shadow": false,
+				"overlayText": false
+			}
+		}`
 
 	return str
 }
 
-/*
+func composeGallery(items string) string {
 
-var jsonData_Gallery = string (`
-{
-    "galleryConfig": {
-        "id": 202011041604498354406,
-        "type": null,
-        "name": "Name of the gallery",
-        "title": "Title of the gallery",
-        "description": "Description of the gallery",
-        "background": {
-            "color": "red",
-            "video": {
-                "src": null,
-                "size": {
-                    "w": 1024,
-                    "h": 740
-                }
-            },
-            "placeholder": null
-        },
-        "tags": [{
-                "id": null,
-                "label": "All"
-            },
-            {
-                "id": 2,
-                "label": "Smart TV"
-            },
-            {
-                "id": 3,
-                "label": "WEB"
-            },
-            {
-                "id": 4,
-                "label": "Demo"
-            }
-        ],
-        "itemTypes": [],
-        "debug": false
-    },
-    "items": []
-}`)
+	t := time.Now()
+	tUnixNano := t.UnixNano()
+	timestamp := strconv.Itoa(int(tUnixNano)) 
+	galleryName := "Unnamed Gallery"
+	galleryTitle := "Untitled Gallery"
+	galleryDescription := "Description of this gallery"
+	galleryBackgroundColor := "#ffffff"
 
-*/
-
-/*
-var jsonData_Gallery_A = string (`
-{
-    "galleryConfig": {
-        "id": 202011041604498354406,
-        "type": null,
-        "name": "Name of the gallery",
-        "title": "Title of the gallery",
-        "description": "Description of the gallery",
-        "background": {
-            "color": "red",
-            "video": {
-                "src": null,
-                "size": {
-                    "w": 1024,
-                    "h": 740
-                }
-            },
-            "placeholder": null
-        },
-        "tags": [{
-                "id": null,
-                "label": "All"
-            },
-            {
-                "id": 2,
-                "label": "Smart TV"
-            },
-            {
-                "id": 3,
-                "label": "WEB"
-            },
-            {
-                "id": 4,
-                "label": "Demo"
-            }
-        ],
-        "itemTypes": [],
-        "debug": false
-    },
-    "items": [
-`)
-
-var jsonData_Gallery_B = string (`]
-}`)
-
-*/
-
-func compose_Gallery (items string) (string) {
-
-str := string (`
+str := `
 {
 	"galleryConfig": {
-		"id": 202011041604498354406,
+		"id": `+ timestamp +`,
 		"type": null,
-		"name": "Name of the gallery",
-		"title": "Title of the gallery",
-		"description": "Description of the gallery",
+		"name": "`+ galleryName +`",
+		"title": "`+ galleryTitle +`",
+		"description": "`+ galleryDescription +`",
 		"background": {
-			"color": "red",
-			"video": {
-				"src": null,
-				"size": {
-					"w": 1024,
-					"h": 740
-				}
+			"color": "`+ galleryBackgroundColor +`",
+			"gradient": {
+                "color1": "`+ galleryBackgroundColor +`",
+                "color2": "`+ galleryBackgroundColor +`",
+                "angle": null
 			},
+			"video": null,
 			"placeholder": null
 		},
 		"tags": [{
 				"id": null,
 				"label": "All"
-			},
-			{
-				"id": 2,
-				"label": "Smart TV"
-			},
-			{
-				"id": 3,
-				"label": "WEB"
-			},
-			{
-				"id": 4,
-				"label": "Demo"
 			}
 		],
 		"itemTypes": [],
@@ -367,7 +277,7 @@ str := string (`
 	},
 	"items": [`+ items +`
 	]
-}`)
+}`
 
 	return str
 }
