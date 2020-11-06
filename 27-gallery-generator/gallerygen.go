@@ -16,8 +16,7 @@ import (
 	"strconv"
 	"time"
 	"path"
-
-	//"github.com/EdlinOrg/prominentcolor"
+	"github.com/EdlinOrg/prominentcolor"
 )
 
 var galleryFolderName = "golang-generated-gallery"
@@ -111,12 +110,19 @@ func main() {
 
 	for _, fileName = range files {
 
-		var route = "./" + rootFolder + "/" + fileName
-		fmt.Println(route)
+		var imgRoute = "./" + rootFolder + "/" + fileName
+		fmt.Println(imgRoute)
+/*
+		// 3.1) Load the image
+		imgSource, imgFormat, err := loadImage(imgRoute)
+		if err != nil {
+			log.Fatal("Failed to load image", err)
+		}
+*/
 
 		// 3.1) Open, load into memory and close the image
 
-		f1, err := os.Open(route)
+		f1, err := os.Open(imgRoute)
 		if err != nil {
 			fmt.Println("Err 1")
 			log.Fatal(err)
@@ -125,16 +131,34 @@ func main() {
 
 		// 3.2) Decode the picture: Read image data and format
 
-		sourceImage, imageFormat, err := image.Decode(f1)
+		imgSource, imgFormat, err := image.Decode(f1)
 		if err != nil {
 			fmt.Println("Err 2")
 			log.Fatal(err)
 		}
 
+		// 3.2) Load colors
+		colours, err := prominentcolor.Kmeans(imgSource)
+		if err != nil {
+			log.Fatal("Failed to process image", err)
+		}
+
+		cont2 := 0
+		c := "["
+		fmt.Println("Dominant colours:")
+		for _, colour := range colours {
+			colStr := "#" + colour.AsString()
+			fmt.Println(colStr)
+			if cont2 != 0 { c += `,` }
+			c += `"`+ colStr +`"`
+			cont2++ 
+		}
+		c += "]"
+
 		// 3.3) Extract info from the picture
 
-		fmt.Println(" - imageFormat: " + imageFormat)
-		bounds := sourceImage.Bounds()
+		fmt.Println(" - imgFormat: " + imgFormat)
+		bounds := imgSource.Bounds()
 		h := bounds.Max.Y
 		w := bounds.Max.X
 		fmt.Println(" - x: " + strconv.Itoa(w))
@@ -144,7 +168,15 @@ func main() {
 
 		if cont > 0 { itemsString += "," }
 
-		itemsString += composeItem(cont, fileName, sourcesDataPath +"/"+ galleryFolderName +"/images/", w, h, "#e8e8e8")
+		itemsString += composeItem(
+			cont, 
+			fileName, 
+			sourcesDataPath +"/"+ galleryFolderName +"/images/", 
+			w, 
+			h, 
+			//"#e8e8e8", 
+			"#"+ colours[0].AsString(),
+			c)
 		cont++
 	}
 
@@ -165,6 +197,18 @@ func main() {
 
 	// That was all!
 }
+
+/*
+func loadImage(fileInput string) (image.Image, string, error) {
+    f, err := os.Open(fileInput)
+    if err != nil {
+        return nil, err
+    }
+    defer f.Close()
+    img, format, err := image.Decode(f)
+    return img, format, err
+}
+*/
 
 func IOReadDir(rootFolder string) ([]string, error) {
 	var files []string
@@ -193,7 +237,8 @@ func composeItem(
 	filePath string,
 	pictureWidth int,
 	pictureHeight int,
-	pictureColor string ) string {
+	pictureColor string,
+	mainColors string ) string {
 	
 	fileExtension := path.Ext(fileName)
 	fileNameWithoutExtension := fileName[0 : len(fileName)-len(fileExtension)]
@@ -209,6 +254,7 @@ func composeItem(
 			"name": "`+ fileName +`",
 			"title": "`+ fileName +`",
 			"tags":["ALL"],
+			"mainColors": `+ mainColors +`,
 			"thumbnail": {
                 "size":{
                     "w": `+ strconv.Itoa( pictureWidth ) +`,

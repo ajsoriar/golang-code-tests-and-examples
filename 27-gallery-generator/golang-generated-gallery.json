@@ -1,7 +1,7 @@
 
 {
 	"galleryConfig": {
-		"id": 1604699190131641400,
+		"id": 1604703404830077900,
 		"type": null,
 		"name": "Unnamed Gallery",
 		"title": "Untitled Gallery",
@@ -34,13 +34,14 @@
 			"name": "001.png",
 			"title": "001.png",
 			"tags":["ALL"],
+			"mainColors": ["#147F7A","#87A93D","#26387E"],
 			"thumbnail": {
                 "size":{
                     "w": 240,
                     "h": 300
                 },
 				"src": "./galleries/golang-generated-gallery/images/001.thumbnail.png",
-				"placeholderColor": "#e8e8e8"
+				"placeholderColor": "#147F7A"
             },
 			"target": {
                 "size":{
@@ -50,7 +51,7 @@
 				"src": "./galleries/golang-generated-gallery/images/001.png"
 			},
 			"background": {
-				"color": "#e8e8e8",
+				"color": "#147F7A",
 				"image": null,
 				"video": null
 			},
@@ -76,13 +77,14 @@
 			"name": "002.jpg",
 			"title": "002.jpg",
 			"tags":["ALL"],
+			"mainColors": ["#200431","#09724C","#144232"],
 			"thumbnail": {
                 "size":{
                     "w": 300,
                     "h": 240
                 },
 				"src": "./galleries/golang-generated-gallery/images/002.thumbnail.jpg",
-				"placeholderColor": "#e8e8e8"
+				"placeholderColor": "#200431"
             },
 			"target": {
                 "size":{
@@ -92,7 +94,7 @@
 				"src": "./galleries/golang-generated-gallery/images/002.jpg"
 			},
 			"background": {
-				"color": "#e8e8e8",
+				"color": "#200431",
 				"image": null,
 				"video": null
 			},
@@ -118,13 +120,14 @@
 			"name": "003.gif",
 			"title": "003.gif",
 			"tags":["ALL"],
+			"mainColors": ["#412133","#937A63","#A965A9"],
 			"thumbnail": {
                 "size":{
                     "w": 840,
                     "h": 592
                 },
 				"src": "./galleries/golang-generated-gallery/images/003.thumbnail.gif",
-				"placeholderColor": "#e8e8e8"
+				"placeholderColor": "#412133"
             },
 			"target": {
                 "size":{
@@ -134,7 +137,7 @@
 				"src": "./galleries/golang-generated-gallery/images/003.gif"
 			},
 			"background": {
-				"color": "#e8e8e8",
+				"color": "#412133",
 				"image": null,
 				"video": null
 			},
@@ -160,13 +163,14 @@
 			"name": "70.png",
 			"title": "70.png",
 			"tags":["ALL"],
+			"mainColors": ["#A43C7C","#8B587C","#994F74"],
 			"thumbnail": {
                 "size":{
                     "w": 1639,
                     "h": 248
                 },
 				"src": "./galleries/golang-generated-gallery/images/70.thumbnail.png",
-				"placeholderColor": "#e8e8e8"
+				"placeholderColor": "#A43C7C"
             },
 			"target": {
                 "size":{
@@ -176,7 +180,7 @@
 				"src": "./galleries/golang-generated-gallery/images/70.png"
 			},
 			"background": {
-				"color": "#e8e8e8",
+				"color": "#A43C7C",
 				"image": null,
 				"video": null
 			},
