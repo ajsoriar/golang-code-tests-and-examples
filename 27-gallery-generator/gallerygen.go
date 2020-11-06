@@ -15,6 +15,9 @@ import (
 	"os"
 	"strconv"
 	"time"
+	"path"
+
+	//"github.com/EdlinOrg/prominentcolor"
 )
 
 var galleryFolderName = "golang-generated-gallery"
@@ -191,6 +194,10 @@ func composeItem(
 	pictureWidth int,
 	pictureHeight int,
 	pictureColor string ) string {
+	
+	fileExtension := path.Ext(fileName)
+	fileNameWithoutExtension := fileName[0 : len(fileName)-len(fileExtension)]
+	
 
 	str := `
 		{
@@ -207,7 +214,7 @@ func composeItem(
                     "w": `+ strconv.Itoa( pictureWidth ) +`,
                     "h": `+ strconv.Itoa( pictureHeight ) +`
                 },
-				"src": "`+ filePath + fileName +`",
+				"src": "`+ filePath + fileNameWithoutExtension + ".thumbnail" + fileExtension +`",
 				"placeholderColor": "`+ pictureColor +`"
             },
 			"target": {
